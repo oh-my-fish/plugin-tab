@@ -1,17 +1,21 @@
 # Open new iTerm and Terminal tabs from the command line
 #
-# Author: Justin Hileman (http://justinhileman.com)
+# USAGE
 #
-# Usage:
-#     tab                   Opens the current directory in a new tab
-#     tab [PATH]            Open PATH in a new tab
-#     tab [CMD]             Open a new tab and execute CMD
-#     tab [PATH] [CMD] ...  You can prolly guess
+#   tab                   Opens the current directory in a new tab
+#   tab [path]            Open PATH in a new tab
+#   tab [cmd]             Open a new tab and execute CMD
+#   tab [path] [cmd] ...  You can prolly guess
 #
 # If you use iTerm and your default session profile isn't "Default Session",
-# override it in your config.fish
+# override it in your `config.fish` or `omf/init.fish`
 #
 #     set -g tab_iterm_profile "MyProfile"
+#
+# AUTHOR
+#
+#   Justin Hileman (http://justinhileman.com)
+#
 
 function tab -d 'Open the current directory (or any other directory) in a new tab'
   set -l cmd ''
@@ -63,5 +67,6 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
 
   case '*'
     echo "Unknown terminal: $TERM_PROGRAM" >&2
+    return 1
   end
 end
