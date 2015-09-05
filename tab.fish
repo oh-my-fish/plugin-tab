@@ -51,7 +51,6 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
           end tell
         end tell
       end tell
-      end tell
     "; or osascript 2>/dev/null -e "
       tell application \"iTerm\"
         tell current window
