@@ -44,18 +44,19 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
     end
     osascript 2>/dev/null -e "
       tell application \"iTerm\"
-        tell current window
-      		set newTab to (create tab with profile \"$profile\")
-      		tell current session of newTab
-      			write text \"cd \\\"$cdto\\\"$cmd\"
-      		end tell
-      	end tell
-      end tell
-    "; or osascript 2>/dev/null -e "
-      tell application \"iTerm\"
         tell current terminal
           launch session \"$profile\"
           tell the last session
+            write text \"cd \\\"$cdto\\\"$cmd\"
+          end tell
+        end tell
+      end tell
+      end tell
+    "; or osascript 2>/dev/null -e "
+      tell application \"iTerm\"
+        tell current window
+          set newTab to (create tab with profile \"$profile\")
+          tell current session of newTab
             write text \"cd \\\"$cdto\\\"$cmd\"
           end tell
         end tell
