@@ -38,10 +38,12 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
   switch $TERM_PROGRAM
 
   case 'iTerm.app'
-    set -l profile 'Default Session'
     if set -q tab_iterm_profile
       set profile $tab_iterm_profile
+    else
+      set profile "Default Session"
     end
+
     osascript 2>/dev/null -e "
       tell application \"iTerm\"
         tell current terminal
@@ -51,16 +53,28 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
           end tell
         end tell
       end tell
-    "; or osascript 2>/dev/null -e "
-      tell application \"iTerm\"
-        tell current window
-          set newTab to (create tab with profile \"$profile\")
-          tell current session of newTab
-            write text \"cd \\\"$cdto\\\"$cmd\"
+    "; or begin
+      # Support for iTerm 2.9 beta:
+      # - Handle new interface.
+      # - New feature: open tab with default profile.
+
+      if set -q tab_iterm_profile
+        set profile "profile \"$tab_iterm_profile\""
+      else
+        set profile "default profile"
+      end
+
+      osascript 2>/dev/null -e "
+        tell application \"iTerm\"
+          tell current window
+            set newTab to (create tab with $profile)
+            tell current session of newTab
+              write text \"cd \\\"$cdto\\\"$cmd\"
+            end tell
           end tell
         end tell
-      end tell
-    "
+      "
+    end
 
   case 'Apple_Terminal'
     osascript 2>/dev/null -e "
