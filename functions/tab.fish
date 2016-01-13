@@ -1,4 +1,4 @@
-# Open new iTerm, Terminal and Konsole tabs from the command line
+# Open new iTerm, Apple Terminal, Konsole and Gnome Terminal tabs from the command line
 #
 # USAGE
 #
@@ -23,12 +23,13 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
   set -l cdto $PWD
   set -l cmd
 
-  switch $argv[1]
-    case "-s" "--split"
-      set split
-      set -e argv[1]
-    case "-h" "--help"
-      echo "\
+  if test (count $argv) -gt 0
+    switch $argv[1]
+      case "-s" "--split"
+        set split
+        set -e argv[1]
+      case "-h" "--help"
+        echo "\
 Open new terminal tabs from the command line
 
 Usage:
@@ -44,6 +45,7 @@ Arguments:
   command     Command to run in the new tab
 "
       return
+    end
   end
 
   if test (count $argv) -gt 0
@@ -78,10 +80,16 @@ Arguments:
           tab.iterm "$cdto" "$cmd"
         end
       end
+
     case "apple_terminal"
       tab.apple_terminal "$cdto" "$cmd"
+
     case "konsole"
       tab.konsole "$cdto" "$cmd"
+
+    case "gnome_terminal"
+      tab.gnome_terminal "$cdto" "$cmd"
+
     case "*"
       echo "Unknown terminal: $term_program" >&2
       return 1
@@ -89,7 +97,7 @@ Arguments:
 end
 
 function __tab.term_program
-  switch $TERM_PROGRAM
+  switch "$TERM_PROGRAM"
     case "iTerm.app"
       echo iterm
 
@@ -103,6 +111,8 @@ function __tab.term_program
         else
           echo konsole
         end
+      else if [ "$VTE_VERSION" -ge 3803 -o "$COLORTERM" = "gnome-terminal" ]
+        echo gnome_terminal
       end
   end
 end

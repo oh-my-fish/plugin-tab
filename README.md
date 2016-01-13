@@ -9,7 +9,7 @@
 
 <br/>
 
-Open new iTerm, Terminal and Konsole tabs from the command line.
+Open new iTerm, Apple Terminal, Konsole and Gnome Terminal tabs from the command line.
 
 
 ## Install
@@ -18,7 +18,7 @@ Open new iTerm, Terminal and Konsole tabs from the command line.
 $ omf install tab
 ```
 
-If you use iTerm and your default session profile isn't "Default Session", override it in your omf `init.fish`:
+If you use iTerm and your default session profile isn't "Default Session" you can override it in your omf `init.fish`:
 
 ```fish
 set -g tab_iterm_profile "MyProfile"
