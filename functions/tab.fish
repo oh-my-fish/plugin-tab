@@ -6,6 +6,8 @@
 #   tab [path]            Open PATH in a new tab
 #   tab [cmd]             Open a new tab and execute CMD
 #   tab [path] [cmd] ...  You can prolly guess
+#   tab [-s|--split]      Split the current tab instead of opening a new tab
+#                         (Only supported in iTerm at this time)
 #
 # If you use iTerm and your default session profile isn't "Default Session",
 # override it in your `config.fish` or `omf/init.fish`
@@ -22,6 +24,9 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
   set -l cmd
 
   switch $argv[1]
+    case "-s" "--split"
+      set split
+      set -e argv[1]
     case "-h" "--help"
       echo "\
 Open new terminal tabs from the command line
@@ -31,6 +36,8 @@ Usage:
 
 Options:
   -h --help   Display this help message.
+  -s --split  Split the current tab instead of opening a new tab.
+              (Only supported in iTerm at this time)
 
 Arguments:
   dir         Working directory for the new tab [default: pwd]
@@ -59,9 +66,17 @@ Arguments:
     case "iterm"
       switch (__tab.iterm_version)
       case "2.9.*"
-        tab.iterm_beta "$cdto" "$cmd"
+        if set -q split
+          tab.iterm_beta.split "$cdto" "$cmd"
+        else
+          tab.iterm_beta "$cdto" "$cmd"
+        end
       case "*"
-        tab.iterm "$cdto" "$cmd"
+        if set -q split
+          tab.iterm.split "$cdto" "$cmd"
+        else
+          tab.iterm "$cdto" "$cmd"
+        end
       end
     case "apple_terminal"
       tab.apple_terminal "$cdto" "$cmd"

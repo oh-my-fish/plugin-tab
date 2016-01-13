@@ -32,6 +32,8 @@ $ tab                  Opens the current directory in a new tab
 $ tab [dir]            Open dir in a new tab
 $ tab [cmd]            Open a new tab and execute cmd
 $ tab [dir] [cmd] ...  You can prolly guess
+$ tab [-s|--split]     Split the current tab instead of opening a new tab
+                       (Only supported in iTerm at this time)
 ```
 
 
