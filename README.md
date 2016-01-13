@@ -9,7 +9,7 @@
 
 <br/>
 
-Open new iTerm and Terminal tabs from the command line.
+Open new iTerm, Terminal and Konsole tabs from the command line.
 
 
 ## Install

@@ -1,4 +1,4 @@
-# Open new iTerm and Terminal tabs from the command line
+# Open new iTerm, Terminal and Konsole tabs from the command line
 #
 # USAGE
 #
@@ -18,8 +18,26 @@
 #
 
 function tab -d 'Open the current directory (or any other directory) in a new tab'
-  set -l cmd ''
   set -l cdto $PWD
+  set -l cmd
+
+  switch $argv[1]
+    case "-h" "--help"
+      echo "\
+Open new terminal tabs from the command line
+
+Usage:
+  tab [options] [dir] [command]
+
+Options:
+  -h --help   Display this help message.
+
+Arguments:
+  dir         Working directory for the new tab [default: pwd]
+  command     Command to run in the new tab
+"
+      return
+  end
 
   if test (count $argv) -gt 0
     if test -d $argv[1]
@@ -35,61 +53,45 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
     set cmd "; $argv"
   end
 
-  switch $TERM_PROGRAM
+  set -l term_program (__tab.term_program)
 
-  case 'iTerm.app'
-    if set -q tab_iterm_profile
-      set profile $tab_iterm_profile
-    else
-      set profile "Default Session"
-    end
-
-    osascript 2>/dev/null -e "
-      tell application \"iTerm\"
-        tell current terminal
-          launch session \"$profile\"
-          tell the last session
-            write text \"cd \\\"$cdto\\\"$cmd\"
-          end tell
-        end tell
-      end tell
-    "; or begin
-      # Support for iTerm 2.9 beta:
-      # - Handle new interface.
-      # - New feature: open tab with default profile.
-
-      if set -q tab_iterm_profile
-        set profile "profile \"$tab_iterm_profile\""
-      else
-        set profile "default profile"
+  switch "$term_program"
+    case "iterm"
+      switch (__tab.iterm_version)
+      case "2.9.*"
+        tab.iterm_beta "$cdto" "$cmd"
+      case "*"
+        tab.iterm "$cdto" "$cmd"
       end
-
-      osascript 2>/dev/null -e "
-        tell application \"iTerm\"
-          tell current window
-            set newTab to (create tab with $profile)
-            tell current session of newTab
-              write text \"cd \\\"$cdto\\\"$cmd\"
-            end tell
-          end tell
-        end tell
-      "
-    end
-
-  case 'Apple_Terminal'
-    osascript 2>/dev/null -e "
-      tell application \"Terminal\"
-        activate
-        tell application \"System Events\" to keystroke \"t\" using command down
-        repeat while contents of selected tab of window 1 starts with linefeed
-          delay 0.01
-        end repeat
-        do script \"cd \\\"$cdto\\\"$cmd\" in window 1
-      end tell
-    "
-
-  case '*'
-    echo "Unknown terminal: $TERM_PROGRAM" >&2
-    return 1
+    case "apple_terminal"
+      tab.apple_terminal "$cdto" "$cmd"
+    case "konsole"
+      tab.konsole "$cdto" "$cmd"
+    case "*"
+      echo "Unknown terminal: $term_program" >&2
+      return 1
   end
+end
+
+function __tab.term_program
+  switch $TERM_PROGRAM
+    case "iTerm.app"
+      echo iterm
+
+    case "Apple_Terminal"
+      echo apple_terminal
+
+    case "*"
+      if [ "$KONSOLE_PROFILE_NAME" -o "$KONSOLE_DBUS_SERVICE" -o "$KONSOLE_DBUS_SESSION" -o "$KONSOLE_DBUS_WINDOW" ]
+        if [ "$KATE_PID" ]
+          echo kate
+        else
+          echo konsole
+        end
+      end
+  end
+end
+
+function __tab.iterm_version
+  osascript 2>/dev/null -e "get version of application \"iTerm\""
 end
