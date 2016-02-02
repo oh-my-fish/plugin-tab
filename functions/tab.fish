@@ -2,12 +2,13 @@
 #
 # USAGE
 #
-#   tab                   Opens the current directory in a new tab
-#   tab [path]            Open PATH in a new tab
-#   tab [cmd]             Open a new tab and execute CMD
-#   tab [path] [cmd] ...  You can prolly guess
-#   tab [-s|--split]      Split the current tab instead of opening a new tab
-#                         (Only supported in iTerm at this time)
+#   tab                     Opens the current directory in a new tab
+#   tab [path]              Open PATH in a new tab
+#   tab [cmd]               Open a new tab and execute CMD
+#   tab [path] [cmd] ...    You can prolly guess
+#   tab [-s|--split]        Split the current tab instead of opening a new tab
+#   tab [-S|--split-horiz]  Split the current tab horizontally.
+#                           (Splits are only supported in iTerm at this time)
 #
 # If you use iTerm and your default session profile isn't "Default Session",
 # override it in your `config.fish` or `omf/init.fish`
@@ -28,6 +29,9 @@ function tab -d 'Open the current directory (or any other directory) in a new ta
       case "-s" "--split"
         set split
         set -e argv[1]
+      case "-S" "--split-horiz" "--splith" "--split-h" "--split-horizontal" "--split-horizontally"
+        set splith
+        set -e argv[1]
       case "-h" "--help"
         echo "\
 Open new terminal tabs from the command line
@@ -36,13 +40,14 @@ Usage:
   tab [options] [dir] [command]
 
 Options:
-  -h --help   Display this help message.
-  -s --split  Split the current tab instead of opening a new tab.
-              (Only supported in iTerm at this time)
+  -h --help         Display this help message.
+  -s --split        Split the current tab instead of opening a new tab.
+  -S --split-horiz  Split the current tab horizontally.
+                    (Splits are only supported in iTerm at this time)
 
 Arguments:
-  dir         Working directory for the new tab [default: pwd]
-  command     Command to run in the new tab
+  dir               Working directory for the new tab [default: pwd]
+  command           Command to run in the new tab
 "
       return
     end
@@ -68,13 +73,17 @@ Arguments:
     case "iterm"
       switch (__tab.iterm_version)
       case "2.9.*"
-        if set -q split
+        if set -q splith
+          tab.iterm_beta.splith "$cdto" "$cmd"
+        else if set -q split
           tab.iterm_beta.split "$cdto" "$cmd"
         else
           tab.iterm_beta "$cdto" "$cmd"
         end
       case "*"
-        if set -q split
+        if set -q splith
+          tab.iterm.splith "$cdto" "$cmd"
+        else if set -q split
           tab.iterm.split "$cdto" "$cmd"
         else
           tab.iterm "$cdto" "$cmd"
