@@ -72,7 +72,7 @@ Arguments:
   switch "$term_program"
     case "iterm"
       switch (__tab.iterm_version)
-      case "2.9.*"
+      case "2.9.*" "3.0.*"
         if set -q splith
           tab.iterm_beta.splith "$cdto" "$cmd"
         else if set -q split
