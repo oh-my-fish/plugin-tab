@@ -28,12 +28,13 @@ set -g tab_iterm_profile "MyProfile"
 ## Usage
 
 ```fish
-$ tab                  Opens the current directory in a new tab
-$ tab [dir]            Open dir in a new tab
-$ tab [cmd]            Open a new tab and execute cmd
-$ tab [dir] [cmd] ...  You can prolly guess
-$ tab [-s|--split]     Split the current tab instead of opening a new tab
-                       (Only supported in iTerm at this time)
+$ tab                     Opens the current directory in a new tab
+$ tab [path]              Open PATH in a new tab
+$ tab [cmd]               Open a new tab and execute CMD
+$ tab [path] [cmd] ...    You can prolly guess
+$ tab [-s|--split]        Split the current tab instead of opening a new tab
+$ tab [-S|--split-horiz]  Split the current tab horizontally.
+                          (Splits are only supported in iTerm at this time)
 ```
 
 
