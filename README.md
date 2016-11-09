@@ -9,7 +9,7 @@
 
 <br/>
 
-Open new iTerm, Apple Terminal, Konsole and Gnome Terminal tabs from the command line.
+Open new iTerm, Apple Terminal, Konsole, Gnome Terminal and Guake tabs from the command line.
 
 
 ## Install
