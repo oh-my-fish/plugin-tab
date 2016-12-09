@@ -129,7 +129,7 @@ function __tab.term_program
       else if [ "$VTE_VERSION" -ge 3803 -o "$COLORTERM" = "gnome-terminal" ]
         echo gnome_terminal
       else if [ "$COLORTERM" = "xfce4-terminal" ]
-	echo xfce4_terminal
+        echo xfce4_terminal
       else if [ "$GUAKE_TAB_UUID" ]
         echo guake
       end
