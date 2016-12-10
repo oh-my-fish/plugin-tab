@@ -99,6 +99,9 @@ Arguments:
     case "gnome_terminal"
       tab.gnome_terminal "$cdto" "$cmd"
 
+    case "xfce4_terminal"
+      tab.xfce4_terminal "$cdto" "$cmd"
+
     case "guake"
       tab.guake "$cdto" "$cmd"
 
@@ -125,6 +128,8 @@ function __tab.term_program
         end
       else if [ "$VTE_VERSION" -ge 3803 -o "$COLORTERM" = "gnome-terminal" ]
         echo gnome_terminal
+      else if [ "$COLORTERM" = "xfce4-terminal" ]
+        echo xfce4_terminal
       else if [ "$GUAKE_TAB_UUID" ]
         echo guake
       end
