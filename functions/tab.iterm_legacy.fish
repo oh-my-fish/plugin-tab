@@ -1,4 +1,4 @@
-function tab.iterm -a cdto cmd
+function tab.iterm_legacy -a cdto cmd
   set -l profile "Default Session"
   if set -q tab_iterm_profile
     set profile $tab_iterm_profile

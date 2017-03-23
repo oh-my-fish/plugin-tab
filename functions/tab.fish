@@ -82,11 +82,11 @@ Arguments:
         end
       case "*"
         if set -q splith
-          tab.iterm.splith "$cdto" "$cmd"
+          tab.iterm_legacy.splith "$cdto" "$cmd"
         else if set -q split
-          tab.iterm.split "$cdto" "$cmd"
+          tab.iterm_legacy.split "$cdto" "$cmd"
         else
-          tab.iterm "$cdto" "$cmd"
+          tab.iterm_legacy "$cdto" "$cmd"
         end
       end
 
