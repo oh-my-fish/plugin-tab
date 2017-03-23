@@ -1,4 +1,4 @@
-function tab.iterm_beta.splith -a cdto cmd
+function tab.iterm.splith -a cdto cmd
   osascript 2>/dev/null -e "
     tell application \"iTerm\"
       tell current session of current tab of current window

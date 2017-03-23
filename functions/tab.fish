@@ -74,11 +74,11 @@ Arguments:
       switch (__tab.iterm_version)
       case "2.9.*" "3.*"
         if set -q splith
-          tab.iterm_beta.splith "$cdto" "$cmd"
+          tab.iterm.splith "$cdto" "$cmd"
         else if set -q split
-          tab.iterm_beta.split "$cdto" "$cmd"
+          tab.iterm.split "$cdto" "$cmd"
         else
-          tab.iterm_beta "$cdto" "$cmd"
+          tab.iterm "$cdto" "$cmd"
         end
       case "*"
         if set -q splith

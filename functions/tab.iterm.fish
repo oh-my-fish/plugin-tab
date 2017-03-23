@@ -1,4 +1,4 @@
-function tab.iterm_beta -a cdto cmd
+function tab.iterm -a cdto cmd
   set -l profile "default profile"
   if set -q tab_iterm_profile
     set profile "profile \"$tab_iterm_profile\""
