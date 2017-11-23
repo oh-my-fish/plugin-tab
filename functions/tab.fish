@@ -103,6 +103,16 @@ Arguments:
     case "guake"
       tab.guake "$cdto" "$cmd"
 
+    case "terminator"
+        if set -q splith
+          tab.terminator.splith "$cdto"
+        else if set -q split
+          tab.terminator.split "$cdto"
+        else
+          tab.terminator "$cdto" "$cmd"
+        end
+
+
     case "*"
       echo "Unknown terminal: $term_program" >&2
       return 1
@@ -129,6 +139,8 @@ function __tab.term_program
         else
           echo konsole
         end
+      else if [ "$TERMINATOR_UUID" ]
+        echo terminator
       else if [ "$VTE_VERSION" -ge 3803 -o "$COLORTERM" = "gnome-terminal" ]
         echo gnome_terminal
       else if [ "$COLORTERM" = "xfce4-terminal" ]
