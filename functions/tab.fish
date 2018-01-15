@@ -71,23 +71,21 @@ Arguments:
 
   switch "$term_program"
     case "iterm"
-      switch (__tab.iterm_version)
-      case "2.9.*" "3.*"
-        if set -q splith
-          tab.iterm.splith "$cdto" "$cmd"
-        else if set -q split
-          tab.iterm.split "$cdto" "$cmd"
-        else
-          tab.iterm "$cdto" "$cmd"
-        end
-      case "*"
-        if set -q splith
-          tab.iterm_legacy.splith "$cdto" "$cmd"
-        else if set -q split
-          tab.iterm_legacy.split "$cdto" "$cmd"
-        else
-          tab.iterm_legacy "$cdto" "$cmd"
-        end
+      if set -q splith
+        tab.iterm.splith "$cdto" "$cmd"
+      else if set -q split
+        tab.iterm.split "$cdto" "$cmd"
+      else
+        tab.iterm "$cdto" "$cmd"
+      end
+
+    case "iterm_legacy"
+      if set -q splith
+        tab.iterm_legacy.splith "$cdto" "$cmd"
+      else if set -q split
+        tab.iterm_legacy.split "$cdto" "$cmd"
+      else
+        tab.iterm_legacy "$cdto" "$cmd"
       end
 
     case "apple_terminal"
@@ -114,7 +112,12 @@ end
 function __tab.term_program
   switch "$TERM_PROGRAM"
     case "iTerm.app"
-      echo iterm
+      switch (__tab.iterm_version)
+        case "2.9.*" "3.*"
+          echo iterm
+        case "*"
+          echo iterm_legacy
+      end
 
     case "Apple_Terminal"
       echo apple_terminal
