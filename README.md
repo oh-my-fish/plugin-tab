@@ -9,7 +9,7 @@
 
 <br/>
 
-Open new iTerm, Apple Terminal, Konsole, Gnome Terminal and Guake tabs from the command line.
+Open new iTerm, Apple Terminal, Konsole, Yakuake, Gnome Terminal and Guake tabs from the command line.
 
 
 ## Install
@@ -34,7 +34,7 @@ $ tab [cmd]               Open a new tab and execute CMD
 $ tab [path] [cmd] ...    You can prolly guess
 $ tab [-s|--split]        Split the current tab instead of opening a new tab
 $ tab [-S|--split-horiz]  Split the current tab horizontally.
-                          (Splits are only supported in iTerm at this time)
+                          (Splits are only supported in iTerm and Yakuake at this time)
 ```
 
 

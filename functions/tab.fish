@@ -91,6 +91,15 @@ Arguments:
     case "apple_terminal"
       tab.apple_terminal "$cdto" "$cmd"
 
+    case "yakuake"
+      if set -q splith
+        tab.yakuake.splith "$cdto" "$cmd"
+      else if set -q split
+        tab.yakuake.split "$cdto" "$cmd"
+      else
+        tab.yakuake "$cdto" "$cmd"
+      end
+
     case "konsole"
       tab.konsole "$cdto" "$cmd"
 
@@ -124,8 +133,11 @@ function __tab.term_program
 
     case "*"
       if [ "$KONSOLE_PROFILE_NAME" -o "$KONSOLE_DBUS_SERVICE" -o "$KONSOLE_DBUS_SESSION" -o "$KONSOLE_DBUS_WINDOW" ]
+        set is_yakuake (qdbus $KONSOLE_DBUS_SERVICE | grep yakuake)
         if [ "$KATE_PID" ]
           echo kate
+        else if test -n "$is_yakuake"
+          echo yakuake
         else
           echo konsole
         end
