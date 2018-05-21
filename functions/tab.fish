@@ -64,7 +64,7 @@ Arguments:
   end
 
   if test (count $argv) -gt 0
-    set cmd "; $argv"
+    set cmd "; $argv; exit"
   end
 
   set -l term_program (__tab.term_program)
