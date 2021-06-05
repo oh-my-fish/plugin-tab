@@ -1,3 +1,3 @@
 function tab.terminator.split -a cdto
-  /usr/share/terminator/remotinator vsplit
+  remotinator vsplit
 end
